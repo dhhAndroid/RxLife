@@ -2,13 +2,13 @@
 [![](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html) 
 [ ![API](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat-square) ](https://developer.android.com/about/versions/android-4.0.html)
 [ ![License](http://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square) ](http://www.apache.org/licenses/LICENSE-2.0)
-## 利用Jetpack下的Lifecycle获取Activity/Fragment的生命周期变化，通过 BehaviorSubject 转化成 Observable，从而通过Observable.takeUnit(otherObserable) 方法自动完成Observable与界面命周期绑定，公司项目在该库的管控下，RxJava相关导致的内存泄漏率为0%(LeakCanary检测)，强烈推荐使用。
+## 利用Jetpack下的Lifecycle获取Activity/Fragment的生命周期变化，通过 BehaviorSubject 转化成 Observable，从而通过Observable.takeUnit(otherObserable) 方法自动完成Observable与界面命周期绑定，在日常开发过程中，在该库的管控下，RxJava相关导致的内存泄漏率为0%(LeakCanary检测)，强烈推荐使用。
 
 ### 为什么重复造轮子？
 ### 使用RxJava的开发者，一定知道[trello/RxLifecycle](https://github.com/trello/RxLifecycle)项目，本项目LifecycleTransformer也是参考了本项目，但是个人认为trello/RxLifecycle不够简洁，需要继承等等，所以在去年本人就开发了[dhhAndroid/RxLifecycle](https://github.com/dhhAndroid/RxLifecycle)，更加简洁地管理RxJava的生命周期，随着Google推出Jetpack，我发现在dhhAndroid/RxLifecycle库中获取界面生命周期的方式(通过在界面中注入空Fragment)，在JetPack中的Lifecycle模块中已经实现，所以使用Kotlin开发出本库。
 
 # 安装 #
-### 由于本库依赖于Jetpack，所以android.support库要在v7:26+以上，例如：com.android.support:appcompat-v7:28.0.0 ###
+### 由于本库依赖于Jetpack，所以android.support库要在v7:26.1.x以上，例如：com.android.support:appcompat-v7:28.0.0 ###
 ### RxLife1对应RxJava1版本，RxLife2对应RxJava2版本 ###
 #### version：RxLife1：[ ![Download](https://api.bintray.com/packages/dhhandroid/maven/RxLife1/images/download.svg) ](https://bintray.com/dhhandroid/maven/RxLife1/_latestVersion)
 ```groovy
@@ -32,10 +32,10 @@
     implementation 'com.dhh:rxLife2:version'
     
 ```
-## 使用
+## 使用（[查看demo](https://github.com/dhhAndroid/RxLife/tree/master/demo)）
 ### 前置条件：因support包中的 AppCompatActivity 和 android.support.v4.app.Fragment 均已实现 LifecycleOwner，所以确保你的项目 BaseActivity 继承于 AppCompatActivity，BaseFragment继承于 android.support.v4.app.Fragment。 ###
 ### RxLife1与RxLife2使用方式完全一样，以RxJava2版本为例：
-### 标准用法，使用RxLife.with(lifecycleOwner),以下compose在一个Observable事件流上使用一种即可： ###
+### 标准用法（Java或Kotlin项目），使用RxLife.with(lifecycleOwner),以下compose在一个Observable事件流上使用一种即可： ###
 ```kotlin
 
         Observable.timer(10, TimeUnit.SECONDS)
