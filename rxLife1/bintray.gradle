@@ -1,0 +1,94 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+group = "com.dhh"       // 数据仓库依赖第一部分
+def moduleName = "RxLife1"          //数据仓库依赖第二部分
+version = RxLife1Version      // 数据仓库依赖第三部分
+
+def siteUrl = 'https://github.com/dhhAndroid/RxLife'
+def gitUrl = 'https://github.com/dhhAndroid/RxLife.git'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name '使用Jetpack、Kotlin实现的RxJava自动注销库'     // 项目描述
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'dhh'                // 开发者信息
+                        name 'dhh'              // 开发者信息
+                        email 'dhhmvp@163.com'    // 开发者信息
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/8/docs/api"
+        title '使用Jetpack、Kotlin实现的RxJava自动注销库'   // 文档标题
+    }
+}
+
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+
+// 生成jar包
+task releaseJar(type: Copy) {
+    from('build/intermediates/bundles/default')
+    into('../jar')
+    include('classes.jar')
+    rename('classes.jar', moduleName + version + '.jar')
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = moduleName             // 仓库名称
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}

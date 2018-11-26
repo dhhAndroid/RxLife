@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion AndroidSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName RxLife2Version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -36,6 +36,4 @@ dependencies {
     compileOnly project(path: ':AndroidStub')
     compileOnly RxJava2
 }
-repositories {
-    mavenCentral()
-}
+apply from: 'bintray.gradle'

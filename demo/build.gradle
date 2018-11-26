@@ -31,11 +31,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(path: ':RxLife1')
+    implementation project(path: ':rxLife1')
     implementation RxJava1
     implementation RxAndroid1
 
-    implementation project(path: ':RxLife2')
+    implementation project(path: ':rxLife2')
     implementation RxJava2
     implementation RxAndroid2
 }
