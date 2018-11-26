@@ -5,7 +5,7 @@
 ## 利用Jetpack下的Lifecycle获取Activity/Fragment的生命周期变化，通过 BehaviorSubject 转化成 Observable，从而通过Observable.takeUnit(otherObserable) 方法自动完成Observable与界面命周期绑定，在日常开发过程中，在该库的管控下，RxJava相关导致的内存泄漏率为0%(LeakCanary检测)，强烈推荐使用。
 
 ### 为什么重复造轮子？
-### 使用RxJava的开发者，一定知道[trello/RxLifecycle](https://github.com/trello/RxLifecycle)项目，本项目LifecycleTransformer也是参考了本项目，但是个人认为trello/RxLifecycle不够简洁，需要继承等等，所以在去年本人就开发了[dhhAndroid/RxLifecycle](https://github.com/dhhAndroid/RxLifecycle)，更加简洁地管理RxJava的生命周期，随着Google推出Jetpack，我发现在dhhAndroid/RxLifecycle库中获取界面生命周期的方式(通过在界面中注入空Fragment)，在JetPack中的Lifecycle模块中已经实现，所以使用Kotlin开发出本库。
+### 使用RxJava的开发者，一定知道[trello/RxLifecycle](https://github.com/trello/RxLifecycle)项目，本项目LifecycleTransformer也是参考了trello/RxLifecycle，但是个人认为trello/RxLifecycle不够简洁，需要继承等等，所以在去年本人就开发了[dhhAndroid/RxLifecycle](https://github.com/dhhAndroid/RxLifecycle)，更加简洁地管理RxJava的生命周期；随着Google推出Jetpack，我发现在dhhAndroid/RxLifecycle库中获取界面生命周期的方式(通过在界面中注入空Fragment)，在JetPack中的Lifecycle模块中已经实现，所以使用Kotlin结合Jetpack开发出了本项目。
 
 # 安装 #
 ### 由于本库依赖于Jetpack，所以android.support库要在v7:26.1.x以上，例如：com.android.support:appcompat-v7:28.0.0 ###
