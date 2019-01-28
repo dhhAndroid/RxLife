@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion AndroidSdkVersion
         versionCode 1
-        versionName RxLife1Version
+        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -28,12 +28,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compileOnly AndroidSupportAppcompat
+    implementation AndroidSupportAppcompat
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(path: ':rxLife_base')
-    compileOnly RxJava1
+    compileOnly project(path: ':AndroidStub')
 }
-apply from: 'bintray.gradle'

@@ -1,3 +1,5 @@
+@file:JvmName("_RxLife")
+
 package com.dhh.rxlife2
 
 import android.arch.lifecycle.Lifecycle

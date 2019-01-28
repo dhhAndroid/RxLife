@@ -6,9 +6,9 @@ import android.view.View
 import com.dhh.demo.R
 import com.dhh.demo.mvp.BaseActivity
 import com.dhh.rxlife1.RxLife
+import com.dhh.rxlife1.bindOnDestroy
 import com.dhh.rxlife1.bindToLifecycle
 import com.dhh.rxlife1.bindUntilEvent
-import com.dhh.rxlife1.bindOnDestroy
 import kotlinx.android.synthetic.main.activity_rx_life1.*
 import rx.Observable
 import rx.android.MainThreadSubscription
@@ -56,6 +56,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 }
                 .first { it == 0L }
                 .repeat()
+                .bindToLifecycle(this)
                 .subscribe { presenter.requestdata() }
         presenter.start()
 

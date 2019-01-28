@@ -1,3 +1,5 @@
+@file:JvmName("_RxLife")
+
 package com.dhh.rxlife1
 
 import android.arch.lifecycle.Lifecycle
@@ -37,7 +39,7 @@ fun <T> Single<T>.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Event) 
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Single<T>.bindOnDestroy(owner: LifecycleOwner) = bindUntilEvent<T>(owner,Lifecycle.Event.ON_DESTROY)
+fun <T> Single<T>.bindOnDestroy(owner: LifecycleOwner) = bindUntilEvent<T>(owner, Lifecycle.Event.ON_DESTROY)
 
 
 //------------------------------------
@@ -55,4 +57,4 @@ fun <T> Completable.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Event
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Completable.bindOnDestroy(owner: LifecycleOwner) = bindUntilEvent<T>(owner,Lifecycle.Event.ON_DESTROY)
+fun <T> Completable.bindOnDestroy(owner: LifecycleOwner) = bindUntilEvent<T>(owner, Lifecycle.Event.ON_DESTROY)
