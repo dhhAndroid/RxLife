@@ -20,7 +20,7 @@ fun <T> Observable<T>.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Eve
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Observable<T>.bindonDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
+fun <T> Observable<T>.bindOnDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
 
 
 //------------------------------------
@@ -38,7 +38,7 @@ fun <T> Flowable<T>.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Event
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Flowable<T>.bindonDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
+fun <T> Flowable<T>.bindOnDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
 
 
 //------------------------------------
@@ -56,7 +56,7 @@ fun <T> Maybe<T>.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Event) =
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Maybe<T>.bindonDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
+fun <T> Maybe<T>.bindOnDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
 
 
 //------------------------------------
@@ -74,5 +74,5 @@ fun <T> Single<T>.bindUntilEvent(owner: LifecycleOwner, event: Lifecycle.Event) 
 /**
  * 在[Lifecycle.Event.ON_DESTROY],即界面销毁的时候注销
  */
-fun <T> Single<T>.bindonDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
+fun <T> Single<T>.bindOnDestroy(owner: LifecycleOwner) = compose(RxLife.with(owner).bindOnDestroy())
 

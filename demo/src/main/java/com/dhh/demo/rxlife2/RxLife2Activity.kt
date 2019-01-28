@@ -10,7 +10,7 @@ import com.dhh.demo.rxlife1.RxLife1Activity
 import com.dhh.rxlife2.RxLife
 import com.dhh.rxlife2.bindToLifecycle
 import com.dhh.rxlife2.bindUntilEvent
-import com.dhh.rxlife2.bindonDestroy
+import com.dhh.rxlife2.bindOnDestroy
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_rxlife2.*
 import java.util.concurrent.TimeUnit
@@ -41,7 +41,7 @@ class RxLife2Activity : AppCompatActivity() {
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_STOP]注销
                 .bindToLifecycle(this)
                 //指定在[Lifecycle.Event.ON_DESTROY]注销
-                .bindonDestroy(this)
+                .bindOnDestroy(this)
                 //指定在某一生命周期注销，不常用
                 .bindUntilEvent(this, Lifecycle.Event.ON_DESTROY)
                 .doOnComplete { Log.d("RxLife2-onCreate", "doOnComplete2") }
@@ -67,7 +67,7 @@ class RxLife2Activity : AppCompatActivity() {
                 //标准使用模式,自动在[Lifecycle.Event.ON_DESTROY]注销
                 .compose(RxLife.with(this).bindOnDestroy())
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_DESTROY]注销
-                .bindonDestroy(this)
+                .bindOnDestroy(this)
                 .doOnComplete { Log.d("RxLife2-onResume", "doOnComplete2") }
                 .subscribe { Log.d("RxLife2-onResume", it.toString()) }
     }

@@ -29,20 +29,18 @@ class RxLife private constructor(private val lifecycleOwner: LifecycleOwner) : G
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
-        if (!isInitialized) ActivityThread.currentApplication()?.let { init(it) }
     }
 
     companion object {
-        private var isInitialized = false
+        init {
+            init()
+        }
 
         /**
          * 初始化本框架
          * @param application Application
          */
-        @Synchronized
-        private fun init(application: Application) {
-            if (isInitialized) return
-            isInitialized = true
+        private fun init(application: Application = ActivityThread.currentApplication()) {
             application.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
                 override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
                     if (activity is LifecycleOwner) with(activity)

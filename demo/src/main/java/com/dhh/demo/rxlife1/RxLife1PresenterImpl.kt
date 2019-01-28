@@ -2,7 +2,7 @@ package com.dhh.demo.rxlife1
 
 import android.util.Log
 import com.dhh.demo.mvp.PresenterDelegate
-import com.dhh.rxlife1.bindonDestroy
+import com.dhh.rxlife1.bindOnDestroy
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
@@ -26,7 +26,7 @@ class RxLife1PresenterImpl : PresenterDelegate<RxLife1Contract.View>(), RxLife1C
                 .doOnCompleted { Log.d("RxLife1PresenterImpl", "doOnCompleted") }
                 .doOnUnsubscribe { Log.d("RxLife1PresenterImpl", "doOnUnsubscribe") }
                 //P层使用用例
-                .bindonDestroy(this)
+                .bindOnDestroy(this)
                 .subscribe { view.onSuccess(it) }
     }
 }

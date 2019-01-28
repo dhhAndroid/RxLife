@@ -2,7 +2,6 @@ package com.dhh.rxlife1
 
 import android.arch.lifecycle.Lifecycle
 import rx.Observable
-import rx.functions.Func2
 
 /**
  * Created by dhh on 2018/11/22.
@@ -33,7 +32,7 @@ class LifecycleTransformer<T> internal constructor(
         }
     }
 
-    private val compareFunction = Func2<Lifecycle.Event, Lifecycle.Event, Boolean> { disposeEvent, lifecycleEvent -> disposeEvent == lifecycleEvent }
+    private val compareFunction: (Lifecycle.Event, Lifecycle.Event) -> Boolean = { disposeEvent, lifecycleEvent -> disposeEvent == lifecycleEvent }
 
     /**
      * 界面生命周期转化，输入是当[Observable]订阅时的生命周期，转化成对应的注销生命周期，

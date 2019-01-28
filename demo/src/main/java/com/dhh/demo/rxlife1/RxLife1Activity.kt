@@ -8,7 +8,7 @@ import com.dhh.demo.mvp.BaseActivity
 import com.dhh.rxlife1.RxLife
 import com.dhh.rxlife1.bindToLifecycle
 import com.dhh.rxlife1.bindUntilEvent
-import com.dhh.rxlife1.bindonDestroy
+import com.dhh.rxlife1.bindOnDestroy
 import kotlinx.android.synthetic.main.activity_rx_life1.*
 import rx.Observable
 import rx.android.MainThreadSubscription
@@ -78,7 +78,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 //标准使用模式,自动在[Lifecycle.Event.ON_DESTROY]注销
                 .compose(RxLife.with(this).bindOnDestroy())
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_DESTROY]注销
-                .bindonDestroy(this)
+                .bindOnDestroy(this)
                 .doOnCompleted { Log.d("RxLife1-onResume", "doOnCompleted2") }
                 .doOnUnsubscribe { Log.d("RxLife1-onResume", "doOnUnsubscribe2") }
                 .subscribe { Log.d("RxLife1-onResume", it.toString()) }
