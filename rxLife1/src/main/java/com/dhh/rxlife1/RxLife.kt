@@ -1,7 +1,7 @@
 package com.dhh.rxlife1
 
+import android.app.ActivityThread
 import android.arch.lifecycle.LifecycleOwner
-import com.dhh.rxlife.base.RxLifeInitHelper
 
 /**
  * Created by dhh on 2018/11/22.
@@ -10,7 +10,7 @@ import com.dhh.rxlife.base.RxLifeInitHelper
  */
 object RxLife {
     init {
-        RxLifeInitHelper.init { with(it) }
+        ActivityThread.currentApplication().registerActivityLifecycleCallbacks(RxLifeActivityLifecycleCallbacks { with(it) })
     }
 
     @JvmStatic

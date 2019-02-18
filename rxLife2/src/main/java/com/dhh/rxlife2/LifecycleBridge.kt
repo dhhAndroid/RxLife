@@ -2,7 +2,6 @@ package com.dhh.rxlife2
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleOwner
-import com.dhh.rxlife.base.LifecycleBridgeBase
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.*

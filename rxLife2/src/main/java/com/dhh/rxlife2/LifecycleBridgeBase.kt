@@ -1,4 +1,4 @@
-package com.dhh.rxlife.base
+package com.dhh.rxlife2
 
 import android.arch.lifecycle.GenericLifecycleObserver
 import android.arch.lifecycle.Lifecycle
@@ -9,7 +9,7 @@ import android.arch.lifecycle.LifecycleOwner
  * 将[LifecycleOwner]转换成 RxJava 的基础桥梁
  * @author dhh
  */
-abstract class LifecycleBridgeBase(val lifecycleOwner: LifecycleOwner) : GenericLifecycleObserver {
+internal abstract class LifecycleBridgeBase(val lifecycleOwner: LifecycleOwner) : GenericLifecycleObserver {
 
     /**
      * 是否是销毁状态

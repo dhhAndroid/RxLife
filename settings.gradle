@@ -1,1 +1,1 @@
-include ':demo', ':rxLife2', ':AndroidStub', ':rxLife1', ':rxLife_base'
+include ':demo', ':rxLife2', ':AndroidStub', ':rxLife1'
