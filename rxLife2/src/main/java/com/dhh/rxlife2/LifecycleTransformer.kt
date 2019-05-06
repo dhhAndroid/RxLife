@@ -3,7 +3,6 @@ package com.dhh.rxlife2
 import android.arch.lifecycle.Lifecycle
 import io.reactivex.*
 import io.reactivex.functions.BiFunction
-import org.reactivestreams.Publisher
 
 /**
  * Created by dhh on 2018/7/13.
@@ -17,25 +16,30 @@ class LifecycleTransformer<T> internal constructor(
         ObservableTransformer<T, T>,
         FlowableTransformer<T, T>,
         MaybeTransformer<T, T>,
-        SingleTransformer<T, T> {
+        SingleTransformer<T, T>,
+        CompletableTransformer {
 
     override fun apply(upstream: Observable<T>): ObservableSource<T> {
-        return upstream.takeUntil(getTakeUntilObservable())
+        return upstream.takeUntil(getTakeUntilFlowable().toObservable())
     }
 
-    override fun apply(upstream: Flowable<T>): Publisher<T> {
-        return upstream.takeUntil(getTakeUntilObservable().toFlowable(BackpressureStrategy.LATEST))
+    override fun apply(upstream: Flowable<T>): Flowable<T> {
+        return upstream.takeUntil(getTakeUntilFlowable())
     }
 
     override fun apply(upstream: Maybe<T>): MaybeSource<T> {
-        return upstream.takeUntil(getTakeUntilObservable().firstElement())
+        return upstream.takeUntil(getTakeUntilFlowable())
     }
 
     override fun apply(upstream: Single<T>): SingleSource<T> {
-        return upstream.takeUntil(getTakeUntilObservable().singleOrError())
+        return upstream.takeUntil(getTakeUntilFlowable())
     }
 
-    private fun getTakeUntilObservable(): Observable<*> {
+    override fun apply(upstream: Completable): CompletableSource {
+        return upstream.takeUntil(getTakeUntilFlowable().ignoreElements())
+    }
+
+    private fun getTakeUntilFlowable(): Flowable<*> {
         return when (disposeEvent) {
             Lifecycle.Event.ON_ANY -> {
                 Observable.combineLatest(
@@ -47,7 +51,7 @@ class LifecycleTransformer<T> internal constructor(
             }
             else -> lifecycleObservable.filter { it == disposeEvent }.take(1)
 
-        }
+        }.toFlowable(BackpressureStrategy.LATEST)
     }
 
     private val compareFunction = BiFunction<Lifecycle.Event, Lifecycle.Event, Boolean> { disposeEvent, lifecycleEvent -> disposeEvent == lifecycleEvent }

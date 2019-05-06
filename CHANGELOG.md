@@ -1,5 +1,8 @@
 # Change Log
 
+## Version 1.1.3 *(2019-05-06)*
+ * fix #3，修复初始化问题
+ 
 ## Version 1.1.1 *(2019-02-18)*
  * fix #2，移除 rxLife_base 模块
 

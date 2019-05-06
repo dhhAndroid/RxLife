@@ -14,6 +14,7 @@ install {
             project {
                 packaging 'aar'
                 name '使用Jetpack、Kotlin实现的RxJava自动注销库'     // 项目描述
+//                artifactId moduleName.toLowerCase(Locale.ENGLISH)
                 url siteUrl
                 licenses {
                     license {

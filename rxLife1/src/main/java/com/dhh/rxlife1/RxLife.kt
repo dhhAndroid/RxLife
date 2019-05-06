@@ -10,7 +10,7 @@ import android.arch.lifecycle.LifecycleOwner
  */
 object RxLife {
     init {
-        ActivityThread.currentApplication().registerActivityLifecycleCallbacks(RxLifeActivityLifecycleCallbacks { with(it) })
+        ActivityThread.currentApplication().registerActivityLifecycleCallbacks(RxLifeActivityLifecycleCallbacks())
     }
 
     @JvmStatic

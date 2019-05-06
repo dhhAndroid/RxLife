@@ -13,14 +13,14 @@ import android.support.v4.app.FragmentManager
  *
  * @author dhh
  */
-internal class RxLifeActivityLifecycleCallbacks(private val initAction: (LifecycleOwner) -> Unit) : Application.ActivityLifecycleCallbacks {
+internal class RxLifeActivityLifecycleCallbacks internal constructor() : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (activity is LifecycleOwner) initAction(activity)
+        if (activity is LifecycleOwner) RxLife.with(activity)
         if (activity is FragmentActivity) {
             activity.supportFragmentManager
                     .registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
                         override fun onFragmentCreated(fm: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
-                            initAction(fragment)
+                            RxLife.with(fragment)
                         }
                     }, true)
 
