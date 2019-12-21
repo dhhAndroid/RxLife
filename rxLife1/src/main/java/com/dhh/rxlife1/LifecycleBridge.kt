@@ -1,8 +1,9 @@
 package com.dhh.rxlife1
 
-import android.arch.lifecycle.GenericLifecycleObserver
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.OnLifecycleEvent
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.Subject
@@ -14,7 +15,7 @@ import java.util.*
  * 将[LifecycleOwner]转换成 [LifecycleProvider] 的桥梁
  * @author dhh
  */
-internal class LifecycleBridge(private val lifecycleOwner: LifecycleOwner) : GenericLifecycleObserver, LifecycleProvider {
+internal class LifecycleBridge(private val lifecycleOwner: LifecycleOwner) : LifecycleObserver, LifecycleProvider {
 
     companion object {
         private val cacheMap = WeakHashMap<LifecycleOwner, LifecycleBridge>()
@@ -38,7 +39,8 @@ internal class LifecycleBridge(private val lifecycleOwner: LifecycleOwner) : Gen
      * @param source LifecycleOwner
      * @param event Lifecycle.Event
      */
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
+    fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         lifecycleSubject.onNext(event)
         if (isDestroy) release()
     }

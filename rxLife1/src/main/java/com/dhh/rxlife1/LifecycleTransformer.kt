@@ -1,6 +1,7 @@
 package com.dhh.rxlife1
 
 import android.arch.lifecycle.Lifecycle
+import com.dhh.rxlife1.internal.OperatorTakeUntil
 import rx.Observable
 
 /**
@@ -14,7 +15,7 @@ class LifecycleTransformer<T> internal constructor(
 ) : Observable.Transformer<T, T> {
 
     override fun call(upstream: Observable<T>): Observable<T> {
-        return upstream.takeUntil(getTakeUntilObservable())
+        return upstream.lift(OperatorTakeUntil(getTakeUntilObservable()))
     }
 
 

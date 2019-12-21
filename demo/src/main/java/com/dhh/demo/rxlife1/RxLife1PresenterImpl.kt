@@ -1,8 +1,8 @@
 package com.dhh.demo.rxlife1
 
+import android.arch.lifecycle.LifecycleOwner
 import android.util.Log
 import com.dhh.demo.mvp.PresenterDelegate
-import com.dhh.rxlife1.bindOnDestroy
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import java.util.*
@@ -18,6 +18,10 @@ class RxLife1PresenterImpl : PresenterDelegate<RxLife1Contract.View>(), RxLife1C
         requestdata()
     }
 
+    override fun getLifecycleOwner(): LifecycleOwner {
+        return owner
+    }
+
     override fun requestdata() {
         Observable.just("我是模拟网络请求的数据" + Random().nextInt(100))
                 .delay(5, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
@@ -26,7 +30,7 @@ class RxLife1PresenterImpl : PresenterDelegate<RxLife1Contract.View>(), RxLife1C
                 .doOnCompleted { Log.d("RxLife1PresenterImpl", "doOnCompleted") }
                 .doOnUnsubscribe { Log.d("RxLife1PresenterImpl", "doOnUnsubscribe") }
                 //P层使用用例
-                .bindOnDestroy(this)
+                .bindOnDestroy()
                 .subscribe { view.onSuccess(it) }
     }
 }

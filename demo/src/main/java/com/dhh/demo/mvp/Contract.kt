@@ -24,7 +24,7 @@ interface BasePresenter {
 /**
  * V-P层关系桥梁,不对外暴露
  */
-internal interface ContractPresenter<V : BaseView> : BasePresenter, LifecycleOwner {
+internal interface ContractPresenter<V : BaseView> : BasePresenter {
     /**
      * 绑定[view]层
      * @param view V
@@ -52,6 +52,4 @@ abstract class PresenterDelegate<V : BaseView> : ContractPresenter<V> {
         this.context = context
         this.owner = owner
     }
-
-    override fun getLifecycle() = owner.lifecycle
 }

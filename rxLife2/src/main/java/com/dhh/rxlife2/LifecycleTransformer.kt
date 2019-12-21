@@ -1,6 +1,7 @@
 package com.dhh.rxlife2
 
 import android.arch.lifecycle.Lifecycle
+import com.dhh.rxlife2.internal.ObservableTakeUntil
 import io.reactivex.*
 import io.reactivex.functions.BiFunction
 
@@ -19,27 +20,27 @@ class LifecycleTransformer<T> internal constructor(
         SingleTransformer<T, T>,
         CompletableTransformer {
 
-    override fun apply(upstream: Observable<T>): ObservableSource<T> {
-        return upstream.takeUntil(getTakeUntilFlowable().toObservable())
+    override fun apply(upstream: Observable<T>): Observable<T> {
+        return ObservableTakeUntil(upstream, getTakeUntilObservable())
     }
 
     override fun apply(upstream: Flowable<T>): Flowable<T> {
-        return upstream.takeUntil(getTakeUntilFlowable())
+        return apply(upstream.toObservable()).toFlowable(BackpressureStrategy.ERROR)
     }
 
     override fun apply(upstream: Maybe<T>): MaybeSource<T> {
-        return upstream.takeUntil(getTakeUntilFlowable())
+        return apply(upstream.toObservable()).firstElement()
     }
 
     override fun apply(upstream: Single<T>): SingleSource<T> {
-        return upstream.takeUntil(getTakeUntilFlowable())
+        return apply(upstream.toObservable()).firstOrError()
     }
 
     override fun apply(upstream: Completable): CompletableSource {
-        return upstream.takeUntil(getTakeUntilFlowable().ignoreElements())
+        return apply(upstream.toObservable()).ignoreElements()
     }
 
-    private fun getTakeUntilFlowable(): Flowable<*> {
+    private fun getTakeUntilObservable(): Observable<*> {
         return when (disposeEvent) {
             Lifecycle.Event.ON_ANY -> {
                 Observable.combineLatest(
@@ -50,8 +51,7 @@ class LifecycleTransformer<T> internal constructor(
                         .take(1)
             }
             else -> lifecycleObservable.filter { it == disposeEvent }.take(1)
-
-        }.toFlowable(BackpressureStrategy.LATEST)
+        }
     }
 
     private val compareFunction = BiFunction<Lifecycle.Event, Lifecycle.Event, Boolean> { disposeEvent, lifecycleEvent -> disposeEvent == lifecycleEvent }

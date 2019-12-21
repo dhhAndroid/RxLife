@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.View
 import com.dhh.demo.R
 import com.dhh.demo.mvp.BaseActivity
+import com.dhh.rxlife1.LifecycleOwnerScope
 import com.dhh.rxlife1.RxLife
-import com.dhh.rxlife1.bindOnDestroy
-import com.dhh.rxlife1.bindToLifecycle
-import com.dhh.rxlife1.bindUntilEvent
 import kotlinx.android.synthetic.main.activity_rx_life1.*
 import rx.Observable
 import rx.android.MainThreadSubscription
@@ -16,7 +14,7 @@ import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 
-class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.View {
+class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.View,LifecycleOwnerScope {
     override val layoutID: Int
         get() = R.layout.activity_rx_life1
 
@@ -30,7 +28,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 //标准使用模式,自动在[Lifecycle.Event.ON_DESTROY]注销
                 .compose(RxLife.with(this).bindToLifecycle())
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_DESTROY]注销
-                .bindToLifecycle(this)
+                .bindToLifecycle()
                 .doOnCompleted { Log.d("RxLife1-onCreate", "doOnCompleted") }
                 .doOnUnsubscribe { Log.d("RxLife1-onCreate", "doOnUnsubscribe") }
                 .subscribe { Log.d("RxLife1-onCreate", it.toString()) }
@@ -42,7 +40,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 //标准使用模式,自动在[Lifecycle.Event.ON_STOP]注销
                 .compose(RxLife.with(this).bindUntilEvent(Lifecycle.Event.ON_STOP))
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_STOP]注销
-                .bindUntilEvent(this, Lifecycle.Event.ON_STOP)
+                .bindUntilEvent( Lifecycle.Event.ON_STOP)
                 .doOnCompleted { Log.d("RxLife1-onCreate", "doOnCompleted2") }
                 .doOnUnsubscribe { Log.d("RxLife1-onCreate", "doOnUnsubscribe2") }
                 .subscribe { Log.d("RxLife1-onCreate", it.toString()) }
@@ -56,7 +54,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 }
                 .first { it == 0L }
                 .repeat()
-                .bindToLifecycle(this)
+                .bindToLifecycle()
                 .subscribe { presenter.requestdata() }
         presenter.start()
 
@@ -69,7 +67,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 //标准使用模式,自动在[Lifecycle.Event.ON_PAUSE]注销
                 .compose(RxLife.with(this).bindToLifecycle())
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_PAUSE]注销
-                .bindToLifecycle(this)
+                .bindToLifecycle()
                 .doOnCompleted { Log.d("RxLife1-onResume", "doOnCompleted") }
                 .doOnUnsubscribe { Log.d("RxLife1-onResume", "doOnUnsubscribe") }
                 .subscribe { Log.d("RxLife1-onResume", it.toString()) }
@@ -79,7 +77,7 @@ class RxLife1Activity : BaseActivity<RxLife1PresenterImpl>(), RxLife1Contract.Vi
                 //标准使用模式,自动在[Lifecycle.Event.ON_DESTROY]注销
                 .compose(RxLife.with(this).bindOnDestroy())
                 //通过kotlin扩展方法使用，推荐；自动在[Lifecycle.Event.ON_DESTROY]注销
-                .bindOnDestroy(this)
+                .bindOnDestroy()
                 .doOnCompleted { Log.d("RxLife1-onResume", "doOnCompleted2") }
                 .doOnUnsubscribe { Log.d("RxLife1-onResume", "doOnUnsubscribe2") }
                 .subscribe { Log.d("RxLife1-onResume", it.toString()) }

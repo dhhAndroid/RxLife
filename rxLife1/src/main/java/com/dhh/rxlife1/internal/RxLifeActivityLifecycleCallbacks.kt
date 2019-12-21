@@ -1,4 +1,4 @@
-package com.dhh.rxlife1
+package com.dhh.rxlife1.internal
 
 import android.app.Activity
 import android.app.Application
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import com.dhh.rxlife1.RxLife
 
 /**
  * Created by dhh on 2019/1/28.
