@@ -47,18 +47,93 @@
                 .compose(RxLife.with(lifecycleOwner).bindUntilEvent(Lifecycle.Event.ON_DESTROY))
                 .subscribe { Log.d("RxLife2-onCreate", it.toString()) }
 ```
-### 通过 Kotlin 扩展函数使用，Kotlin 项目推荐使用： ###
+
+# 高级使用：Kotlin 项目使用姿势
+### 项目中提供了两个注销作用域接口 [LifecycleOwnerScope](https://github.com/dhhAndroid/RxLife/blob/master/rxLife2/src/main/java/com/dhh/rxlife2/LifecycleOwnerScope.kt)、[DisposeScope](https://github.com/dhhAndroid/RxLife/blob/master/rxLife2/src/main/java/com/dhh/rxlife2/https://github.com/dhhAndroid/RxLife/blob/master/rxLife2/src/main/java/com/dhh/rxlife2/DisposeScope.kt)，其中 LifecycleOwnerScope 的用法是在任意类中比如 Activity、Fragment中如果能获取到 LifecycleOwner 就可以直接让类实现这个接口即可，即可使使用Kotlin的扩展方法进行绑定，用例如下：
 ```kotlin
 
-        Observable.timer(10, TimeUnit.SECONDS)
-                // 通过 kotlin 扩展方法使用，推荐；自动在 [Lifecycle.Event.ON_STOP] 注销
-                .bindToLifecycle(lifecycleOwner)
-                // 指定在 [Lifecycle.Event.ON_DESTROY] 注销
-                .bindOnDestroy(lifecycleOwner)
-                // 指定在某一生命周期注销，不常用
-                .bindUntilEvent(lifecycleOwner, Lifecycle.Event.ON_DESTROY)
-                .subscribe { Log.d("RxLife2-onCreate", it.toString()) }
+    class RxLife2Activity : AppCompatActivity(), LifecycleOwnerScope {
+    
+        override fun getLifecycleOwner(): LifecycleOwner {
+            if (this is LifecycleOwner) return this
+            return super.getLifecycleOwner()
+        }
+    
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_rxlife2)
+            Observable.timer(1, TimeUnit.SECONDS)
+                    //直接绑定到 Activity 的 onDestroy
+                    .bindOnDestroy()
+                    .subscribe {
+    
+                    }
+    
+        }
+    }
 ```
+### 其中 getLifecycleOwner 方法需要返回 LifecycleOwner，做了一些默认类型的实现，如果需要，可以重写实现。
+### DisposeScope（这是RxJava2，RxJava1对应的是 SubscriptionScope）的使用更加广泛，它不依托 LifecycleOwner，对support包版本无要求，只需要在需要使用的类实现此接口，然后在类销毁的时候，调用一下 dispose() 方法即可：
+```kotlin
+
+    class ViewModelTest : ViewModel(), DisposeScope {
+        val userName = MutableLiveData<String>()
+    
+        init {
+            loadData()
+        }
+    
+        fun loadData() {
+            Observable.timer(5, TimeUnit.SECONDS)
+                    .map { "dhh" }
+                    .doOnSubscribe { Log.d("VVV", "doOnSubscribe") }
+                    .doOnDispose { Log.d("VVV", "doOnDispose") }
+                    .bindOnDestroy()
+                    .subscribe { userName.value = it }
+        }
+    
+        override fun onCleared() {
+            super.onCleared()
+            dispose()
+        }
+    }
+```
+### 如上的例子，在 ViewModel 中在 onCleared()中调用 dispose() 即可在loadData()中的 bindOnDestroy() 生效。
+### 此外，你还可以基于 LifecycleOwnerScope、DisposeScope 与项目结合进行扩展，以自定义 DisposeScope 为例如下：
+```kotlin
+
+    interface CustomDisposeScope : DisposeScope {
+        // add custom extension methods
+        fun <T> Observable<T>.commit(onNext: (T) -> Unit): Disposable {
+            return bindOnDestroy().observeOn(AndroidSchedulers.mainThread()).subscribe(onNext, {})
+        }
+    }
+
+    open class BaseViewModel : ViewModel(), CustomDisposeScope {
+        override fun onCleared() {
+            dispose()
+        }
+    }
+
+    class ViewModelTest : BaseViewModel() {
+        val userName = MutableLiveData<String>()
+    
+        init {
+            loadData()
+        }
+    
+        fun loadData() {
+            Observable.timer(5, TimeUnit.SECONDS)
+                    .map { "dhh" }
+                    .doOnSubscribe { Log.d("VVV", "doOnSubscribe") }
+                    .doOnDispose { Log.d("VVV", "doOnDispose") }
+                    .commit { userName.value = it }
+        }
+    
+    }
+```
+### 在 CustomDisposeScope 中增加 commit 方法，直接绑定并订阅，从而简化代码。
+# 详细使用方法请查看demo！请查看demo！请查看demo！
 ## 在 MVP 中使用，其实就是在使用的地方，能提供获取 lifecycleOwner 的方法即可，demo 中有一个简易的 MVP demo，详情查看 demo。 ##
 
 ## License
