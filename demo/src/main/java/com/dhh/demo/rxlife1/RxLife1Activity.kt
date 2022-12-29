@@ -1,6 +1,6 @@
 package com.dhh.demo.rxlife1
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import android.util.Log
 import android.view.View
 import com.dhh.demo.R

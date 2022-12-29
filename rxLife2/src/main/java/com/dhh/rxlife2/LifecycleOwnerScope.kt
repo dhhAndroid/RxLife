@@ -1,7 +1,7 @@
 package com.dhh.rxlife2
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import android.view.View
 import io.reactivex.*
 

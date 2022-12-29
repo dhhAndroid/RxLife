@@ -1,6 +1,6 @@
 package com.dhh.demo.mvp
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.content.Context
 
 /**

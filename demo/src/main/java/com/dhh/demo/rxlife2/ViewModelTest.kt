@@ -1,6 +1,6 @@
 package com.dhh.demo.rxlife2
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.util.Log
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit

@@ -1,6 +1,6 @@
 package com.dhh.demo.rxlife2
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 /**
  * Created by dhh on 2019/12/16.

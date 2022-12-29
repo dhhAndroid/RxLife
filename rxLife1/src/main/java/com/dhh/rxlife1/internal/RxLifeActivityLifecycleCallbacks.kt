@@ -2,11 +2,11 @@ package com.dhh.rxlife1.internal
 
 import android.app.Activity
 import android.app.Application
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.dhh.rxlife1.RxLife
 
 /**
@@ -17,10 +17,10 @@ import com.dhh.rxlife1.RxLife
 internal class RxLifeActivityLifecycleCallbacks internal constructor() : Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         if (activity is LifecycleOwner) RxLife.with(activity)
-        if (activity is FragmentActivity) {
+        if (activity is androidx.fragment.app.FragmentActivity) {
             activity.supportFragmentManager
-                    .registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
-                        override fun onFragmentCreated(fm: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
+                    .registerFragmentLifecycleCallbacks(object : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
+                        override fun onFragmentCreated(fm: androidx.fragment.app.FragmentManager, fragment: androidx.fragment.app.Fragment, savedInstanceState: Bundle?) {
                             RxLife.with(fragment)
                         }
                     }, true)

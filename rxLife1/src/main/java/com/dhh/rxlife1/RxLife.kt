@@ -1,7 +1,7 @@
 package com.dhh.rxlife1
 
 import android.app.ActivityThread
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import com.dhh.rxlife1.internal.RxLifeActivityLifecycleCallbacks
 
 /**

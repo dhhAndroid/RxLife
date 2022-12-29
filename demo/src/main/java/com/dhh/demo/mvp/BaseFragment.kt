@@ -1,9 +1,9 @@
 package com.dhh.demo.mvp
 
 import android.os.Bundle
-import android.support.annotation.CallSuper
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
+import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import java.lang.reflect.ParameterizedType
  * @author dhh
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseFragment<P : BasePresenter> : Fragment(), BaseView {
+abstract class BaseFragment<P : BasePresenter> : androidx.fragment.app.Fragment(), BaseView {
 
     protected val TAG = javaClass.simpleName
     protected val presenter: P by lazy { initPresenter() }

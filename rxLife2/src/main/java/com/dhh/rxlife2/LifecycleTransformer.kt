@@ -1,6 +1,6 @@
 package com.dhh.rxlife2
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import com.dhh.rxlife2.internal.ObservableTakeUntil
 import io.reactivex.*
 import io.reactivex.functions.BiFunction

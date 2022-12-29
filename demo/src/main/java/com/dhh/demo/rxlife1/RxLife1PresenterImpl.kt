@@ -1,6 +1,6 @@
 package com.dhh.demo.rxlife1
 
-import android.arch.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleOwner
 import android.util.Log
 import com.dhh.demo.mvp.PresenterDelegate
 import rx.Observable

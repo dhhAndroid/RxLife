@@ -1,10 +1,10 @@
 package com.dhh.demo.rxlife2
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import com.dhh.demo.R
 import com.dhh.demo.rxlife1.RxLife1Activity

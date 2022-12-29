@@ -1,6 +1,6 @@
 package com.dhh.rxlife2
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 import io.reactivex.Observable
 
 /**
